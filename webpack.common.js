@@ -1,11 +1,10 @@
-// webpack.config.js
+// webpack.common.js
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const webpack = require("webpack");
 const path = require("path");
 
 module.exports = {
-  mode: "development",
   devtool: false,
   entry: "./src/index.js",
   output: {
@@ -36,12 +35,13 @@ module.exports = {
     rules: [
       {
         // this is regex, it tells webpack to look for files that end with .css
-        test: /\.css$/,
+        test: /\.scss$/,
         // the sequence here matters! style-loader needs to come before css-loader
         // because webpack reads these things from right to left
         use: [
-          "style-loader", // step 2: injects Javascript into the DOM
-          "css-loader", // step 1: turns css into valid Javascript
+          "style-loader", // step 3: injects Javascript into the DOM
+          "css-loader", // step 2: turns css into valid Javascript
+          "sass-loader", // step 1: converts sass to css
         ],
       },
       {

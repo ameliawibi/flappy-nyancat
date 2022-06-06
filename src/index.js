@@ -5,6 +5,7 @@ import MenuScene from "./scene/MenuScene";
 import ScoreScene from "./scene/ScoreScene";
 import PauseScene from "./scene/PauseScene";
 import "core-js/es/function";
+import "./main.scss";
 
 const WIDTH = 800;
 const HEIGHT = 600;
