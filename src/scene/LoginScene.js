@@ -24,9 +24,20 @@ class LoginScene extends BaseScene {
   create() {
     super.create();
     this.overlay(true);
+    //go to menu scene,hide login form
     document
       .getElementById("submit")
       .addEventListener("click", () => this.postLogin());
+
+    //hide the login form, show sign up form
+    document.getElementById("signup").addEventListener("click", () => {
+      this.overlay(false);
+      this.overlay(true);
+    });
+    //show login form, hide sign up form
+    document
+      .getElementById("submit2")
+      .addEventListener("click", () => this.postSignUp());
   }
 
   postLogin() {
@@ -42,6 +53,26 @@ class LoginScene extends BaseScene {
         console.log(response);
         this.scene.start("MenuScene");
         this.overlay(true);
+      })
+      .catch((error) => {
+        // handle error
+        console.log(error);
+      });
+  }
+
+  postSignUp() {
+    const data = {
+      uname2: document.getElementById("uname2").value,
+      psw2: document.getElementById("psw2").value,
+    };
+    // Make a request to create an item
+    axios
+      .post("/signup", data)
+      .then((response) => {
+        // handle success
+        console.log(response);
+        this.overlay(true);
+        this.overlay(false);
       })
       .catch((error) => {
         // handle error

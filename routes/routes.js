@@ -16,4 +16,15 @@ export default function bindRoutes(app) {
       console.log(error);
     }
   });
+
+  app.post("/signup", (req, res) => {
+    try {
+      console.log(req.body);
+      if (req.body.uname2 === "b" && req.body.psw2 === "b") {
+        res.sendStatus(200);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
 }
