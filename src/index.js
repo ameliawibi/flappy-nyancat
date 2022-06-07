@@ -4,6 +4,7 @@ import PlayScene from "./scene/PlayScene";
 import MenuScene from "./scene/MenuScene";
 import ScoreScene from "./scene/ScoreScene";
 import PauseScene from "./scene/PauseScene";
+import LoginScene from "./scene/LoginScene";
 import "core-js/es/function";
 import "./main.scss";
 
@@ -17,7 +18,14 @@ const SHARED_CONFIG = {
   parent: "canvas",
 };
 
-const Scenes = [PreloadScene, MenuScene, ScoreScene, PlayScene, PauseScene];
+const Scenes = [
+  PreloadScene,
+  LoginScene,
+  MenuScene,
+  ScoreScene,
+  PlayScene,
+  PauseScene,
+];
 const createScene = (Scene) => new Scene(SHARED_CONFIG);
 const initScenes = () => Scenes.map(createScene);
 

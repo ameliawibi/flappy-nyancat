@@ -6,6 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
-    <div id="canvas"></div>
+    <div id="canvas">
+      <div id="overlay">
+        <label for="uname"><b>Username</b></label>
+        <input
+          type="text"
+          placeholder="Enter Username"
+          name="uname"
+          id="uname"
+          required
+        />
+
+        <label for="psw"><b>Password</b></label>
+        <input
+          type="password"
+          id="psw"
+          placeholder="Enter Passwords"
+          name="psw"
+          required
+        />
+
+        <button id="submit" type="submit">Login</button>
+      </div>
+    </div>
   </body>
 </html>

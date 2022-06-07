@@ -49,6 +49,12 @@ class BaseScene extends Phaser.Scene {
       setupMenuEvents(menuItem);
     });
   }
+  overlay() {
+    var el = document.getElementById("overlay");
+    el.style.visibility =
+      el.style.visibility == "visible" ? "hidden" : "visible";
+    window.scrollTo(0, 0);
+  }
 }
 
 export default BaseScene;
