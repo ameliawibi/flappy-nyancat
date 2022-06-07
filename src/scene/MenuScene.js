@@ -6,7 +6,7 @@ class MenuScene extends BaseScene {
     this.menu = [
       { scene: "PlayScene", text: "Play" },
       { scene: "ScoreScene", text: "Best score" },
-      { scene: "LoginScene", text: "Exit" },
+      { scene: null, text: "Exit" },
     ];
   }
 
@@ -29,10 +29,7 @@ class MenuScene extends BaseScene {
       menuItem.scene && this.scene.start(menuItem.scene);
 
       if (menuItem.text === "Exit") {
-        this.scene.stop("PlayScene");
-        this.scene.start(menuItem.scene);
-        this.overlay();
-        //this.game.destroy(true);
+        this.game.destroy(true);
       }
     });
   }

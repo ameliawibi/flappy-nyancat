@@ -19,32 +19,14 @@ import axios from "axios";
 class LoginScene extends BaseScene {
   constructor(config) {
     super("LoginScene", config);
-    this.menu = [{ scene: "MenuScene", text: "Login" }];
   }
 
   create() {
     super.create();
-    this.createMenu(this.menu, this.setupMenuEvents.bind(this));
-    this.overlay();
+    this.overlay(true);
     document
       .getElementById("submit")
       .addEventListener("click", () => this.postLogin());
-  }
-
-  setupMenuEvents(menuItem) {
-    const textGO = menuItem.textGO;
-    textGO.on("pointerover", () => {
-      textGO.setStyle({ fill: "#ff0" });
-    });
-
-    textGO.on("pointerout", () => {
-      textGO.setStyle({ fill: "#CD00FF" });
-    });
-
-    textGO.on("pointerup", () => {
-      menuItem.scene && this.scene.start(menuItem.scene);
-      this.overlay();
-    });
   }
 
   postLogin() {
@@ -59,7 +41,7 @@ class LoginScene extends BaseScene {
         // handle success
         console.log(response);
         this.scene.start("MenuScene");
-        this.overlay();
+        this.overlay(true);
       })
       .catch((error) => {
         // handle error

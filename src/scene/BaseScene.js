@@ -49,8 +49,14 @@ class BaseScene extends Phaser.Scene {
       setupMenuEvents(menuItem);
     });
   }
-  overlay() {
-    var el = document.getElementById("overlay");
+  overlay(isLogin) {
+    let el;
+    if (isLogin) {
+      el = document.getElementById("overlay");
+    }
+    if (!isLogin) {
+      el = document.getElementById("overlay2");
+    }
     el.style.visibility =
       el.style.visibility == "visible" ? "hidden" : "visible";
     window.scrollTo(0, 0);
