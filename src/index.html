@@ -8,8 +8,11 @@
   <body>
     <div id="canvas">
       <div id="overlay">
-        <label for="uname"><b>Username</b></label>
+        <h1 class="neonText">Flappy Nyancat</h1>
+        <h2 class="neonText">Login to Play!</h2>
+        <label class="neonText" for="uname"><b>Username</b></label>
         <input
+          class="neonBox"
           type="text"
           placeholder="Enter Username"
           name="uname"
@@ -17,22 +20,26 @@
           required
         />
 
-        <label for="psw"><b>Password</b></label>
+        <label class="neonText" for="psw"><b>Password</b></label>
         <input
+          class="neonBox"
           type="password"
           id="psw"
           placeholder="Enter Password"
           name="psw"
           required
         />
+        <br />
+        <button class="neonBox" id="submit" type="submit">Login</button>
 
-        <button id="submit" type="submit">Login</button>
-
-        <button id="signup" type="button">Sign up instead</button>
+        <button class="neonBox" id="signup" type="button">Register</button>
       </div>
       <div id="overlay2">
-        <label for="uname2"><b>Username2</b></label>
+        <h1 class="neonText">Flappy Nyancat</h1>
+        <h2 class="neonText">Sign up to play</h2>
+        <label class="neonText" for="uname2"><b>Username</b></label>
         <input
+          class="neonBox"
           type="text"
           placeholder="Enter Username"
           name="uname2"
@@ -40,16 +47,17 @@
           required
         />
 
-        <label for="psw2"><b>Password2</b></label>
+        <label class="neonText" for="psw2"><b>Password</b></label>
         <input
+          class="neonBox"
           type="password"
           id="psw2"
           placeholder="Enter Password"
           name="psw2"
           required
         />
-
-        <button id="submit2" type="submit">Sign Up</button>
+        <br />
+        <button class="neonBox" id="submit2" type="submit">Register</button>
       </div>
     </div>
   </body>

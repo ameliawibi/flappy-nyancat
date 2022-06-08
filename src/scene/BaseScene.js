@@ -61,6 +61,12 @@ class BaseScene extends Phaser.Scene {
       el.style.visibility == "visible" ? "hidden" : "visible";
     window.scrollTo(0, 0);
   }
+  clearInput() {
+    document.getElementById("uname").value = "";
+    document.getElementById("uname2").value = "";
+    document.getElementById("psw").value = "";
+    document.getElementById("psw2").value = "";
+  }
 }
 
 export default BaseScene;

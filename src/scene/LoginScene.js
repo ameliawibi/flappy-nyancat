@@ -53,6 +53,7 @@ class LoginScene extends BaseScene {
         console.log(response);
         this.scene.start("MenuScene");
         this.overlay(true);
+        this.clearInput();
       })
       .catch((error) => {
         // handle error
@@ -73,6 +74,7 @@ class LoginScene extends BaseScene {
         console.log(response);
         this.overlay(true);
         this.overlay(false);
+        this.clearInput();
       })
       .catch((error) => {
         // handle error
