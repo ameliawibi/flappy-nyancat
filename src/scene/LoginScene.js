@@ -32,11 +32,13 @@ class LoginScene extends BaseScene {
     document.getElementById("signup").addEventListener("click", () => {
       this.overlay(false);
       this.overlay(true);
+      this.clearInput();
     });
     //hide the signup form, show login form
     document.getElementById("login").addEventListener("click", () => {
       this.overlay(false);
       this.overlay(true);
+      this.clearInput();
     });
     //show login form, hide sign up form
     document
