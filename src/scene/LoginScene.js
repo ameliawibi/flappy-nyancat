@@ -1,6 +1,5 @@
 import BaseScene from "./BaseScene";
 import axios from "axios";
-
 /*axios
   .get("https://restcountries.com/v3.1/name/peru")
   .then((res) => {
@@ -31,6 +30,11 @@ class LoginScene extends BaseScene {
 
     //hide the login form, show sign up form
     document.getElementById("signup").addEventListener("click", () => {
+      this.overlay(false);
+      this.overlay(true);
+    });
+    //hide the signup form, show login form
+    document.getElementById("login").addEventListener("click", () => {
       this.overlay(false);
       this.overlay(true);
     });

@@ -28,6 +28,11 @@ class PlayScene extends BaseScene {
     this.createPause();
     this.handleInputs();
     this.listenToEvents();
+    this.socket.emit("subscribe");
+    this.socket.once("joinRoom", function (gameHistory) {
+      console.log("joinRoom happened");
+      console.log(gameHistory);
+    });
   }
 
   update() {

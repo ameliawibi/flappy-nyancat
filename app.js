@@ -1,8 +1,14 @@
 import express from "express";
 import bindRoutes from "./routes/routes";
 import methodOverride from "method-override";
+import { createServer } from "http";
+import { Server } from "socket.io";
+import init from "./socket/server";
 
 const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer);
+
 // Bind Express middleware to parse request bodies for POST requests
 app.use(express.urlencoded({ extended: false }));
 // Bind Express middleware to parse JSON request bodies
@@ -17,6 +23,9 @@ bindRoutes(app);
 
 // Set Express to listen on the given port
 const PORT = process.env.PORT || 3004;
-app.listen(PORT, () => {
-  console.log(`App running at localhost:${PORT}`);
+
+init(io);
+
+httpServer.listen(3004, () => {
+  console.log("listening on *:3004");
 });

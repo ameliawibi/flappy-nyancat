@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.prod.js",
     "start": "nodemon --exec babel-node app.js",
-    "watch": "webpack --watch --config webpack.dev.js"
+    "dev": "webpack --watch --config webpack.dev.js"
   },
   "keywords": [],
   "author": "",
@@ -33,6 +33,8 @@
     "nodemon": "^2.0.16",
     "phaser": "^3.55.2",
     "sass-loader": "^13.0.0",
+    "socket.io": "^4.5.1",
+    "socket.io-client": "^4.5.1",
     "webpack-merge": "^5.8.0"
   }
 }
