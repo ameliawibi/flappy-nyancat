@@ -45,3 +45,9 @@ export async function postLogin(req, res) {
     console.log(error);
   }
 }
+
+export async function logout(_req, res) {
+  res.clearCookie("loggedInHash");
+  res.clearCookie("userID");
+  res.end();
+}

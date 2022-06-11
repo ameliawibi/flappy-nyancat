@@ -1,3 +1,4 @@
+import axios from "axios";
 import BaseScene from "./BaseScene";
 
 class MenuScene extends BaseScene {
@@ -29,10 +30,24 @@ class MenuScene extends BaseScene {
       menuItem.scene && this.scene.start(menuItem.scene);
 
       if (menuItem.text === "Exit") {
-        this.scene.start(menuItem.scene);
-        this.overlay(true);
+        this.signOut(menuItem);
       }
     });
+  }
+
+  signOut(menuItem) {
+    axios
+      .get("/logout")
+      .then((response) => {
+        // handle success
+        console.log(response);
+        this.scene.start(menuItem.scene);
+        this.overlay(true);
+      })
+      .catch((error) => {
+        // handle error
+        console.log(error);
+      });
   }
 }
 
