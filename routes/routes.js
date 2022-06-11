@@ -14,10 +14,7 @@ export default function bindRoutes(app) {
   app.post("/login", postLogin);
   app.post("/signup", postSignup);
   app.get("/logout", logout);
-
   app.get("/displayscore", displayScore);
-
-  app.get("/increase", increaseScore);
-
+  app.put("/increase", increaseScore);
   app.get("/reset", resetScore);
 }

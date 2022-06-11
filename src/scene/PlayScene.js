@@ -1,4 +1,5 @@
 import BaseScene from "./BaseScene";
+import axios from "axios";
 
 const PIPES_TO_RENDER = 4;
 
@@ -16,6 +17,7 @@ class PlayScene extends BaseScene {
 
     this.score = 0;
     this.scoreText = "";
+    this.bestScoreText = "";
   }
 
   create() {
@@ -51,7 +53,7 @@ class PlayScene extends BaseScene {
 
   startMusic() {
     this.music = this.sound.add("nyancat");
-    //this.music.play();
+    this.music.play();
   }
 
   createBird() {
@@ -104,20 +106,34 @@ class PlayScene extends BaseScene {
 
   createScore() {
     this.score = 0;
-    this.scoreText = this.add.text(16, 16, `Score: ${this.score}`, {
-      fontSize: "32px",
-      fill: "#fff",
-    });
-    const bestScore = localStorage.getItem("bestScore");
-    this.bestScoreText = this.add.text(
-      16,
-      52,
-      `Best score: ${bestScore || 0}`,
-      {
-        fontSize: "18px",
-        fill: "#fff",
-      }
-    );
+    axios
+      .get("/displayscore")
+      .then((response) => {
+        this.scoreText = this.add.text(
+          16,
+          16,
+          `Score: ${response.data.currentScore || 0}`,
+          {
+            fontSize: "32px",
+            fill: "#fff",
+          }
+        );
+        this.bestScoreText = this.add.text(
+          16,
+          52,
+          `Best score by ${response.data.bestPlayer}: ${
+            response.data.bestScore || 0
+          }`,
+          {
+            fontSize: "18px",
+            fill: "#fff",
+          }
+        );
+      })
+      .catch((error) => {
+        //handle error
+        console.log(error);
+      });
   }
 
   createPause() {
@@ -206,7 +222,6 @@ class PlayScene extends BaseScene {
         if (tempPipes.length === 2) {
           this.placePipe(...tempPipes);
           this.increaseScore();
-          this.saveBestScore();
         }
       }
     });
@@ -221,7 +236,7 @@ class PlayScene extends BaseScene {
   }
 
   gameOver() {
-    this.saveBestScore();
+    this.checkBestScore();
     this.physics.pause();
     this.bird.setTint(0xff0000);
     this.music.pause();
@@ -244,15 +259,35 @@ class PlayScene extends BaseScene {
 
   increaseScore() {
     this.score += 1;
-    this.scoreText.setText(`Score: ${this.score}`);
+    const data = {
+      currentScore: this.score,
+    };
+    axios
+      .put("/increase", data)
+      .then((response) => {
+        this.scoreText.setText(`Score: ${response.data.currentScore}`);
+        this.checkBestScore();
+      })
+      .catch((error) => {
+        // handle error
+        console.log(error);
+      });
   }
 
-  saveBestScore() {
-    const bestScoreText = localStorage.getItem("bestScore");
-    const bestScore = bestScoreText && parseInt(bestScoreText, 10);
-    if (!bestScore || this.score > bestScore) {
-      localStorage.setItem("bestScore", this.score);
-    }
+  checkBestScore() {
+    axios
+      .get("/displayscore")
+      .then((response) => {
+        this.bestScoreText.setText(
+          `Best score by ${response.data.bestPlayer}: ${
+            response.data.bestScore || 0
+          }`
+        );
+      })
+      .catch((error) => {
+        //handle error
+        console.log(error);
+      });
   }
 }
 

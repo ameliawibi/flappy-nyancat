@@ -3,7 +3,7 @@ import model from "../src/models";
 //update the current score & personal best of the player (increase score)
 export async function increaseScore(req, res) {
   const loggedInUserID = req.cookies.userID;
-  const currentScore = 2;
+  const currentScore = req.body.currentScore;
   let updatedPersonalBest;
   try {
     const user = await model.User.findByPk(loggedInUserID);

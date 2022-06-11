@@ -18,7 +18,7 @@ class ScoreScene extends BaseScene {
         this.add
           .text(
             ...this.screenCenter,
-            `Best score: ${response.data.personalBest || 0}`,
+            `Your best score: ${response.data.personalBest || 0}`,
             this.fontOptions
           )
           .setOrigin(0.5);
@@ -27,15 +27,6 @@ class ScoreScene extends BaseScene {
         // handle error
         console.log(error);
       });
-    /*const bestScore = localStorage.getItem("bestScore");
-    this.add
-      .text(
-        ...this.screenCenter,
-        `Best score: ${bestScore || 0}`,
-        this.fontOptions
-      )
-      .setOrigin(0.5);
-    */
   }
 }
 

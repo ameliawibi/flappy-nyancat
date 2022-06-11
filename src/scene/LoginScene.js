@@ -1,19 +1,5 @@
 import BaseScene from "./BaseScene";
 import axios from "axios";
-/*axios
-  .get("https://restcountries.com/v3.1/name/peru")
-  .then((res) => {
-    //console.log(res);
-    const canvas = document.getElementById("canvas");
-    const text = document.createElement("p");
-    text.innerText = "Flappy";
-    canvas.appendChild(text);
-  })
-  .catch((error) => {
-    // handle error
-    //console.log(error);
-  });
-*/
 
 class LoginScene extends BaseScene {
   constructor(config) {
