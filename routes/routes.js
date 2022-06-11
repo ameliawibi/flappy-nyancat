@@ -1,5 +1,5 @@
 import { resolve } from "path";
-
+import { createScore } from "../controllers/gameScore";
 import { postSignup, postLogin, logout } from "../controllers/userAuth";
 
 export default function bindRoutes(app) {
@@ -10,4 +10,6 @@ export default function bindRoutes(app) {
   app.post("/login", postLogin);
   app.post("/signup", postSignup);
   app.get("/logout", logout);
+
+  app.get("/createscore", createScore);
 }
