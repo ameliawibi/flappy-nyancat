@@ -22,16 +22,14 @@ export default {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: "games",
+          model: "Games",
           key: "id",
         },
       },
       createdAt: {
-        allowNull: false,
         type: Sequelize.DATE,
       },
       updatedAt: {
-        allowNull: false,
         type: Sequelize.DATE,
       },
     });

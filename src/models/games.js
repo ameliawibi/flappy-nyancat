@@ -1,7 +1,7 @@
 import { Model } from "sequelize";
 
 export default (sequelize, DataTypes) => {
-  class Games extends Model {
+  class Game extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,14 +11,22 @@ export default (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Games.init(
+  Game.init(
     {
       gameState: DataTypes.JSON,
+      createdAt: {
+        type: DataTypes.DATE,
+        defaultValue: new Date(),
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        defaultValue: new Date(),
+      },
     },
     {
       sequelize,
-      modelName: "Games",
+      modelName: "Game",
     }
   );
-  return Games;
+  return Game;
 };

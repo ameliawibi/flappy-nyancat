@@ -31,6 +31,14 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         defaultValue: 1,
       },
+      createdAt: {
+        type: DataTypes.DATE,
+        defaultValue: new Date(),
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        defaultValue: new Date(),
+      },
     },
     {
       sequelize,
