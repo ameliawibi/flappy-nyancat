@@ -65,7 +65,7 @@ export async function displayScore(req, res) {
 }
 
 //reset current score to 0
-export async function gameOver(req, res) {
+export async function resetScore(req, res) {
   const loggedInUserID = req.cookies.userID;
   try {
     const updatedUser = await model.User.update(

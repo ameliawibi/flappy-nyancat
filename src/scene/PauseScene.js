@@ -1,4 +1,5 @@
 import BaseScene from "./BaseScene";
+import axios from "axios";
 
 class PauseScene extends BaseScene {
   constructor(config) {
@@ -30,8 +31,16 @@ class PauseScene extends BaseScene {
         this.scene.resume(menuItem.scene);
       }
       if (menuItem.scene && menuItem.text === "Exit to Menu") {
-        this.scene.stop("PlayScene");
-        this.scene.start(menuItem.scene);
+        axios
+          .get("/reset")
+          .then((response) => {
+            this.scene.stop("PlayScene");
+            this.scene.start(menuItem.scene);
+          })
+          .catch((error) => {
+            // handle error
+            console.log(error);
+          });
       }
     });
   }
