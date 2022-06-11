@@ -9,7 +9,6 @@ export default (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.belongsTo(models.Game, { foreignKey: "gameId" });
     }
   }
   User.init(
@@ -26,17 +25,13 @@ export default (sequelize, DataTypes) => {
         },
       },
       password: DataTypes.STRING,
-      personalBest: DataTypes.INTEGER,
-      gameId: {
-        allowNull: false,
+      personalBest: {
         type: DataTypes.INTEGER,
-        defaultValue: 1,
-        references: {
-          model: "Games",
-          key: "id",
-        },
-        onDelete: "cascade",
-        onUpdate: "cascade",
+        defaultValue: 0,
+      },
+      currentScore: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
       },
       createdAt: {
         type: DataTypes.DATE,

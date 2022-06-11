@@ -1,45 +1,78 @@
 import model from "../src/models";
 
-//create current score & best score of a player in game state
-
-export async function createScore(req, res) {
-  const userID = req.cookies.userID;
+//update the current score & personal best of the player (increase score)
+export async function increaseScore(req, res) {
+  const loggedInUserID = req.cookies.userID;
+  const currentScore = 2;
+  let updatedPersonalBest;
   try {
-    const currentGame = await model.Game.update(
+    const user = await model.User.findByPk(loggedInUserID);
+    if (user.personalBest < currentScore) {
+      updatedPersonalBest = currentScore;
+    } else {
+      updatedPersonalBest = user.personalBest;
+    }
+
+    const updatedUser = await model.User.update(
       {
-        gameState: {
-          status: "active",
-          bestScore: 0,
-          currentScore: [{ player: userID, score: 0 }],
-        },
+        currentScore,
+        personalBest: updatedPersonalBest,
       },
       {
         where: {
-          id: 1,
+          id: Number(loggedInUserID),
         },
         returning: true,
       }
     );
-    console.log(currentGame[1][0].dataValues);
 
-    const mainPlayer =
-      currentGame[1][0].dataValues.gameState.currentScore.filter(function (el) {
-        return el.player === userID;
-      });
+    res.send({ updatedUser });
+  } catch (error) {
+    console.log(error);
+  }
+}
+//get current score and update best score
+export async function displayScore(req, res) {
+  const loggedInUserID = req.cookies.userID;
+  try {
+    const users = await model.User.findAll();
 
-    console.log(mainPlayer[0].score);
+    const loggedInUser = users.find(
+      (user) => user.id === Number(loggedInUserID)
+    );
+
+    const leader = users.reduce(function (prev, current) {
+      return prev.currentScore > current.currentScore ? prev : current;
+    });
 
     res.send({
-      id: currentGame[1][0].dataValues.id,
-      status: currentGame[1][0].dataValues.gameState.status,
-      bestScore: currentGame[1][0].dataValues.gameState.bestScore,
-      currentScore: mainPlayer[0].score,
+      bestScore: leader.currentScore,
+      bestPlayer: leader.name,
+      currentScore: loggedInUser.currentScore,
     });
   } catch (error) {
     console.log(error);
   }
 }
 
-//update the current score of the player (increase score)
+//reset current score to 0
+export async function gameOver(req, res) {
+  const loggedInUserID = req.cookies.userID;
+  try {
+    const updatedUser = await model.User.update(
+      {
+        currentScore: 0,
+      },
+      {
+        where: {
+          id: Number(loggedInUserID),
+        },
+        returning: true,
+      }
+    );
 
-//get current score and update best score
+    res.send({ updatedUser });
+  } catch (error) {
+    console.log(error);
+  }
+}

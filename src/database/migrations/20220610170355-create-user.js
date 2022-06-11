@@ -18,13 +18,8 @@ export default {
       personalBest: {
         type: Sequelize.INTEGER,
       },
-      gameId: {
-        allowNull: false,
+      currentScore: {
         type: Sequelize.INTEGER,
-        references: {
-          model: "Games",
-          key: "id",
-        },
       },
       createdAt: {
         type: Sequelize.DATE,
