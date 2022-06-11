@@ -9,6 +9,7 @@ export default (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Game.hasMany(models.User, { foreignKey: "gameId" });
     }
   }
   Game.init(

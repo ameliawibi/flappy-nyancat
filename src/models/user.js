@@ -9,6 +9,7 @@ export default (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.belongsTo(models.Game, { foreignKey: "gameId" });
     }
   }
   User.init(
@@ -30,6 +31,12 @@ export default (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.INTEGER,
         defaultValue: 1,
+        references: {
+          model: "Games",
+          key: "id",
+        },
+        onDelete: "cascade",
+        onUpdate: "cascade",
       },
       createdAt: {
         type: DataTypes.DATE,

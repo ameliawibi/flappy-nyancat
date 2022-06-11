@@ -1,2 +1,7 @@
+# Dependency directories
 node_modules
 dist
+# File that sometimes appears on MacOS
+.DS_Store
+#env files
+.env

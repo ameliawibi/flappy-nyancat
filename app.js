@@ -1,6 +1,7 @@
 import express from "express";
 import bindRoutes from "./routes/routes";
 import methodOverride from "method-override";
+import cookieParser from "cookie-parser";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import init from "./socket/server";
@@ -17,6 +18,8 @@ app.use(express.json());
 app.use(methodOverride("_method"));
 // Expose the files stored in the distribution folder
 app.use(express.static("dist"));
+
+app.use(cookieParser());
 
 // Bind route definitions to the Express application
 bindRoutes(app);
