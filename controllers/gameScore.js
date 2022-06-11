@@ -26,7 +26,15 @@ export async function increaseScore(req, res) {
       }
     );
 
-    res.send({ updatedUser });
+    const updatedUserData = updatedUser[1].map((Item) => ({
+      ...Item.dataValues,
+    }));
+    console.log(updatedUserData);
+
+    res.send({
+      currentScore: updatedUserData[0].currentScore,
+      personalBest: updatedUserData[0].personalBest,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -49,6 +57,7 @@ export async function displayScore(req, res) {
       bestScore: leader.currentScore,
       bestPlayer: leader.name,
       currentScore: loggedInUser.currentScore,
+      personalBest: loggedInUser.personalBest,
     });
   } catch (error) {
     console.log(error);
