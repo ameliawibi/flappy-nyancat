@@ -19,31 +19,36 @@ class PlayScene extends BaseScene {
     this.score = 0;
     this.scoreText = "";
     this.bestScoreText = "";
+    this.socket = socket;
   }
 
-  create() {
+  promise(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  async create() {
     super.create();
-    this.startMusic();
-    this.createBird();
-    this.createPipes();
-    this.createColliders();
+    this.createPipes(); //need promise here too
+    //this.createBird();
+    await this.createBirdNew();
+    //this.createColliders();
     this.createScore();
     this.createPause();
     this.handleInputs();
     this.listenToEvents();
-    socket.emit("subscribe");
-    socket.once("joinRoom", function (userSocketId) {
-      console.log("joinRoom happened");
-      console.log(userSocketId);
-    });
+    this.startMusic();
   }
 
   update() {
-    this.checkGameStatus();
+    if (!this.bird || !this.pipes) {
+      return;
+    }
     this.recyclePipes();
+    this.checkGameStatus();
   }
 
   checkGameStatus() {
+    console.log(this.bird);
     if (
       this.bird.y <= 0 ||
       this.bird.getBounds().bottom >= this.config.height
@@ -81,6 +86,57 @@ class PlayScene extends BaseScene {
 
     this.bird.body.gravity.y = 400; //400 pixels per second with acceleration
     this.bird.setCollideWorldBounds(true);
+  }
+
+  createBirdNew() {
+    return new Promise((resolve) => {
+      console.log("line 85 is run");
+      this.socket.emit("subscribe");
+      this.socket.once("currentPlayers", (players) => {
+        console.log("this is run");
+        Object.keys(players).forEach((id) => {
+          if (players[id].playerId === socket.id) {
+            var anim_config = {
+              key: "flap",
+              frames: this.anims.generateFrameNumbers("bird", {
+                start: 0,
+                end: 2,
+                first: 0,
+              }),
+              frameRate: 10,
+              repeat: -1,
+            };
+
+            //console.log(this);
+
+            this.flapSound = this.sound.add("flap");
+
+            this.anims.create(anim_config);
+            this.bird = this.physics.add
+              .sprite(
+                this.config.startPosition.x,
+                this.config.startPosition.y,
+                "bird"
+              )
+              .setFlipX(false)
+              .setOrigin(0)
+              .setBodySize(50, 38)
+              .setOffset(31, 0)
+              .play("flap");
+
+            console.log(this.bird);
+            if (players[id].playerId !== socket.id) {
+              this.bird.setTint(0xff0000);
+            }
+
+            this.bird.body.gravity.y = 400; //400 pixels per second with acceleration
+            this.bird.setCollideWorldBounds(true);
+          }
+        });
+      });
+      resolve();
+      setTimeout(() => console.log(this.bird), 1000);
+    });
   }
 
   createPipes() {

@@ -1,27 +1,33 @@
-import { user } from "pg/lib/defaults";
-
 export default function init(io) {
   io.on("connection", (socket) => {
     console.log("a user is connected");
     console.log("socket id: ", socket.id);
+    socket.on("disconnect", function () {
+      console.log("user disconnected");
+      // remove this player from our players object
+      delete players[socket.id];
+      // emit a message to all players to remove this player
+      io.emit("disconnected", socket.id);
+    });
 
-    //listing all users
-    const users = [];
-    for (let [id] of io.of("/").sockets) {
-      users.push({
-        userID: id,
-      });
-    }
-    socket.broadcast.emit("users", users);
+    let players = {};
+    players[socket.id] = {
+      playerId: socket.id,
+      x: 80,
+      y: 300,
+    };
+    // send the players object to the new player
+    //socket.emit("currentPlayers", players);
+    // update all other players of the new player
+    socket.broadcast.emit("newPlayer", players[socket.id]);
 
     let gameRoom = "gameRoom";
 
     socket.on("subscribe", async () => {
-      let userSocketId = { userID: users[users.length - 1].userID };
       socket.join(gameRoom);
-      console.log("a user has joined our room: " + userSocketId);
+      console.log("a user has joined our room: " + socket.id);
 
-      io.to(gameRoom).emit("joinRoom", userSocketId);
+      io.to(gameRoom).emit("currentPlayers", players);
     });
   });
 }
