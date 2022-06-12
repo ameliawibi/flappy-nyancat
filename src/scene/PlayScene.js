@@ -20,6 +20,7 @@ class PlayScene extends BaseScene {
     this.scoreText = "";
     this.bestScoreText = "";
     this.socket = socket;
+    this.dude = {};
   }
 
   promise(ms) {
@@ -27,6 +28,7 @@ class PlayScene extends BaseScene {
   }
 
   async create() {
+    this.dude.isReady = false;
     super.create();
     this.startMusic();
     //this.createPipes();
@@ -40,10 +42,11 @@ class PlayScene extends BaseScene {
     setTimeout(() => {
       this.createColliders();
     }, 1000);
+    this.dude.isReady = true;
   }
 
   update() {
-    if (!this.bird || !this.pipes) {
+    if (!this.dude.isReady) {
       return;
     }
     this.recyclePipes();
