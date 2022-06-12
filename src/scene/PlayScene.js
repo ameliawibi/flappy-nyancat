@@ -1,5 +1,6 @@
 import BaseScene from "./BaseScene";
 import axios from "axios";
+import socket from "../../socket/client";
 
 const PIPES_TO_RENDER = 4;
 
@@ -30,8 +31,8 @@ class PlayScene extends BaseScene {
     this.createPause();
     this.handleInputs();
     this.listenToEvents();
-    this.socket.emit("subscribe");
-    this.socket.once("joinRoom", function (gameHistory) {
+    socket.emit("subscribe");
+    socket.once("joinRoom", function (gameHistory) {
       console.log("joinRoom happened");
       console.log(gameHistory);
     });

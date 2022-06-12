@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { io } from "socket.io-client";
+import socket from "../../socket/client";
 
 class BaseScene extends Phaser.Scene {
   constructor(key, config) {
@@ -9,7 +9,9 @@ class BaseScene extends Phaser.Scene {
     this.lineHeight = 42;
     this.fontOptions = { fontSize: `${this.fontSize}px`, fill: "#CD00FF" };
     this.screenCenter = [config.width / 2, config.height / 2];
-    this.socket = io();
+    socket.on("disconnect", () => {
+      console.log("socket disconnected");
+    });
   }
 
   create() {
@@ -17,9 +19,6 @@ class BaseScene extends Phaser.Scene {
     if (this.config.canGoBack) {
       this.createBackButton();
     }
-    this.socket.on("connect", () => {
-      console.log("socket connected");
-    });
   }
 
   createBG() {

@@ -1,5 +1,6 @@
 import BaseScene from "./BaseScene";
 import axios from "axios";
+import socket from "../../socket/client";
 
 class LoginScene extends BaseScene {
   constructor(config) {
@@ -46,6 +47,9 @@ class LoginScene extends BaseScene {
         this.scene.start("MenuScene");
         this.overlay(true);
         this.clearInput();
+        socket.on("connect", () => {
+          console.log("socket connected");
+        });
       })
       .catch((error) => {
         // handle error
