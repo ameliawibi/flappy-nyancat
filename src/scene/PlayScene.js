@@ -28,15 +28,18 @@ class PlayScene extends BaseScene {
 
   async create() {
     super.create();
-    this.createPipes(); //need promise here too
+    this.startMusic();
+    //this.createPipes();
     //this.createBird();
     await this.createBirdNew();
-    //this.createColliders();
+    await this.createPipesNew();
     this.createScore();
     this.createPause();
     this.handleInputs();
     this.listenToEvents();
-    this.startMusic();
+    setTimeout(() => {
+      this.createColliders();
+    }, 1000);
   }
 
   update() {
@@ -48,7 +51,7 @@ class PlayScene extends BaseScene {
   }
 
   checkGameStatus() {
-    console.log(this.bird);
+    //console.log(this.bird);
     if (
       this.bird.y <= 0 ||
       this.bird.getBounds().bottom >= this.config.height
@@ -90,10 +93,8 @@ class PlayScene extends BaseScene {
 
   createBirdNew() {
     return new Promise((resolve) => {
-      console.log("line 85 is run");
       this.socket.emit("subscribe");
       this.socket.once("currentPlayers", (players) => {
-        console.log("this is run");
         Object.keys(players).forEach((id) => {
           if (players[id].playerId === socket.id) {
             var anim_config = {
@@ -106,8 +107,6 @@ class PlayScene extends BaseScene {
               frameRate: 10,
               repeat: -1,
             };
-
-            //console.log(this);
 
             this.flapSound = this.sound.add("flap");
 
@@ -124,7 +123,6 @@ class PlayScene extends BaseScene {
               .setOffset(31, 0)
               .play("flap");
 
-            console.log(this.bird);
             if (players[id].playerId !== socket.id) {
               this.bird.setTint(0xff0000);
             }
@@ -135,7 +133,7 @@ class PlayScene extends BaseScene {
         });
       });
       resolve();
-      setTimeout(() => console.log(this.bird), 1000);
+      //setTimeout(() => console.log(this.bird), 1000);
     });
   }
 
@@ -157,7 +155,32 @@ class PlayScene extends BaseScene {
     this.pipes.setVelocityX(this.moveVelocity);
   }
 
+  createPipesNew() {
+    return new Promise((resolve) => {
+      this.pipes = this.physics.add.group();
+      for (let i = 0; i < PIPES_TO_RENDER; i++) {
+        const upperPipe = this.pipes
+          .create(0, 0, "pipe")
+          .setImmovable(true)
+          .setFlipY(true)
+          .setOrigin(0, 1);
+        const lowerPipe = this.pipes
+          .create(0, 0, "pipe")
+          .setImmovable(true)
+          .setOrigin(0, 0);
+        this.placePipe(upperPipe, lowerPipe);
+      }
+      this.pipes.setVelocityX(this.moveVelocity);
+      resolve();
+    });
+  }
+
   createColliders() {
+    console.log("error is about to happen");
+    console.log(Object.keys(this));
+    console.log(this.physics);
+    console.log(this.bird);
+    console.log(this.pipes);
     this.physics.add.collider(this.bird, this.pipes, this.gameOver, null, this);
   }
 
