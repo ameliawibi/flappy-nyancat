@@ -37,7 +37,7 @@ export default function init(io) {
       socket.leave(gameRoom);
       console.log("a user has left our room: " + socket.id);
       // remove this player from our players object
-      delete players[socket.id];
+      //delete players[socket.id];
       io.to(gameRoom).emit("userLeft", socket.id);
     });
   });

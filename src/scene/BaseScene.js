@@ -75,6 +75,9 @@ class BaseScene extends Phaser.Scene {
   otherPlayerExit() {
     this.socket.emit("unsubscribe");
     this.socket.on("userLeft", (playerId) => {
+      if (!this.otherPlayers) {
+        return;
+      }
       this.otherPlayers.getChildren().forEach((otherPlayer) => {
         if (playerId === otherPlayer.playerId) {
           otherPlayer.destroy();
