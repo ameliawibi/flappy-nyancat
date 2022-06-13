@@ -136,13 +136,14 @@ class PlayScene extends BaseScene {
           }
         });
       });
-      this.socket.on("newPlayer", (playerInfo) => {
+      /*this.socket.on("newPlayer", (playerInfo) => {
         if (playerInfo) {
           this.addOtherPlayers(playerInfo);
         } else {
           return;
         }
       });
+      */
       resolve();
       //setTimeout(() => console.log(this.bird), 1000);
     });
@@ -161,6 +162,7 @@ class PlayScene extends BaseScene {
 
     this.otherPlayer.playerId = playerInfo.playerId;
     this.otherPlayers.add(this.otherPlayer);
+    console.log(this.otherPlayers.getChildren());
   }
 
   createPipes() {

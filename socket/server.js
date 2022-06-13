@@ -27,6 +27,11 @@ export default function init(io) {
     socket.broadcast.emit("newPlayer", players[socket.id]);
 
     socket.on("subscribe", async () => {
+      players[socket.id] = {
+        playerId: socket.id,
+        x: 80,
+        y: 300,
+      };
       socket.join(gameRoom);
       console.log("a user has joined our room: " + socket.id);
       console.log(players);
@@ -38,7 +43,7 @@ export default function init(io) {
       socket.leave(gameRoom);
       console.log("a user has left our room: " + socket.id);
       // remove this player from our players object
-      //delete players[socket.id];
+      delete players[socket.id];
       io.to(gameRoom).emit("userLeft", socket.id);
     });
   });
