@@ -38,7 +38,7 @@ class PlayScene extends BaseScene {
     this.handleInputs();
     this.listenToEvents();
     setTimeout(() => {
-      this.createColliders();
+      //this.createColliders();
     }, 1000);
     this.dude.isReady = true;
   }
@@ -48,7 +48,7 @@ class PlayScene extends BaseScene {
       return;
     }
     this.recyclePipes();
-    this.checkGameStatus();
+    //this.checkGameStatus();
   }
 
   checkGameStatus() {
@@ -102,7 +102,7 @@ class PlayScene extends BaseScene {
   createBirdNew() {
     return new Promise((resolve) => {
       this.otherPlayers = this.physics.add.group();
-      this.socket.emit("subscribe");
+      this.socket.emit("subscribe", socket.id);
       this.socket.once("currentPlayers", (players) => {
         var anim_config = {
           key: "flapAnim",
@@ -136,14 +136,13 @@ class PlayScene extends BaseScene {
           }
         });
       });
-      /*this.socket.on("newPlayer", (playerInfo) => {
+      this.socket.on("newPlayer", (playerInfo) => {
         if (playerInfo) {
           this.addOtherPlayers(playerInfo);
         } else {
           return;
         }
       });
-      */
       resolve();
       //setTimeout(() => console.log(this.bird), 1000);
     });

@@ -1,9 +1,9 @@
 export default function init(io) {
+  let players = {};
   io.on("connection", (socket) => {
     console.log("a user is connected");
     console.log("socket id: ", socket.id);
 
-    let players = {};
     players[socket.id] = {
       playerId: socket.id,
       x: 80,
@@ -13,6 +13,7 @@ export default function init(io) {
     console.log(players);
 
     socket.on("disconnect", function () {
+      delete players[socket.id];
       console.log(players);
       console.log("user disconnected");
       console.log("socket id: ", socket.id);
