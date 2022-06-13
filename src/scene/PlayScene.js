@@ -37,6 +37,7 @@ class PlayScene extends BaseScene {
     this.createPause();
     this.handleInputs();
     this.listenToEvents();
+    this.removePlayer();
     setTimeout(() => {
       //this.createColliders();
     }, 1000);
@@ -138,7 +139,6 @@ class PlayScene extends BaseScene {
       });
       this.socket.on("newPlayer", (playerInfo) => {
         if (playerInfo) {
-          console.log(playerInfo);
           this.createOtherBirds(playerInfo);
         } else {
           return;
@@ -146,7 +146,6 @@ class PlayScene extends BaseScene {
       });
 
       resolve();
-      //setTimeout(() => console.log(this.bird), 1000);
     });
   }
 
