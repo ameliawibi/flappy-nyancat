@@ -136,14 +136,15 @@ class PlayScene extends BaseScene {
           }
         });
       });
-      /*this.socket.on("newPlayer", (playerInfo) => {
+      this.socket.on("newPlayer", (playerInfo) => {
         if (playerInfo) {
-          this.addOtherPlayers(playerInfo);
+          console.log(playerInfo);
+          this.createOtherBirds(playerInfo);
         } else {
           return;
         }
       });
-      */
+
       resolve();
       //setTimeout(() => console.log(this.bird), 1000);
     });
