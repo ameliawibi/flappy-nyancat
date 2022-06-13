@@ -65,7 +65,7 @@ class PlayScene extends BaseScene {
 
   startMusic() {
     this.music = this.sound.add("nyancat");
-    this.music.play();
+    //this.music.play();
   }
 
   createBird() {
@@ -96,24 +96,23 @@ class PlayScene extends BaseScene {
 
   createBirdNew() {
     return new Promise((resolve) => {
+      this.otherPlayers = this.physics.add.group();
       this.socket.emit("subscribe");
       this.socket.once("currentPlayers", (players) => {
+        var anim_config = {
+          key: "flapAnim",
+          frames: this.anims.generateFrameNumbers("bird", {
+            start: 0,
+            end: 2,
+            first: 0,
+          }),
+          frameRate: 10,
+          repeat: -1,
+        };
+        this.anims.create(anim_config);
         Object.keys(players).forEach((id) => {
           if (players[id].playerId === socket.id) {
-            var anim_config = {
-              key: "flap",
-              frames: this.anims.generateFrameNumbers("bird", {
-                start: 0,
-                end: 2,
-                first: 0,
-              }),
-              frameRate: 10,
-              repeat: -1,
-            };
-
             this.flapSound = this.sound.add("flap");
-
-            this.anims.create(anim_config);
             this.bird = this.physics.add
               .sprite(
                 this.config.startPosition.x,
@@ -124,20 +123,31 @@ class PlayScene extends BaseScene {
               .setOrigin(0)
               .setBodySize(50, 38)
               .setOffset(31, 0)
-              .play("flap");
-
-            if (players[id].playerId !== socket.id) {
-              this.bird.setTint(0xff0000);
-            }
-
+              .play("flapAnim");
             this.bird.body.gravity.y = 400; //400 pixels per second with acceleration
             this.bird.setCollideWorldBounds(true);
+          } else {
+            this.createOtherBirds(players[id]);
           }
         });
       });
       resolve();
       //setTimeout(() => console.log(this.bird), 1000);
     });
+  }
+
+  createOtherBirds(playerInfo) {
+    this.otherPlayer = this.physics.add
+      .sprite(this.config.startPosition.x, this.config.startPosition.y, "bird")
+      .setFlipX(false)
+      .setOrigin(0)
+      .setBodySize(50, 38)
+      .setOffset(31, 0)
+      .setTint(0x0000ff)
+      .play("flapAnim");
+
+    this.otherPlayer.playerId = playerInfo.playerId;
+    this.otherPlayers.add(this.otherPlayer);
   }
 
   createPipes() {
@@ -179,11 +189,6 @@ class PlayScene extends BaseScene {
   }
 
   createColliders() {
-    console.log("error is about to happen");
-    console.log(Object.keys(this));
-    console.log(this.physics);
-    console.log(this.bird);
-    console.log(this.pipes);
     this.physics.add.collider(this.bird, this.pipes, this.gameOver, null, this);
   }
 
