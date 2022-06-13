@@ -29,7 +29,7 @@ export async function increaseScore(req, res) {
     const updatedUserData = updatedUser[1].map((Item) => ({
       ...Item.dataValues,
     }));
-    console.log(updatedUserData);
+    //console.log(updatedUserData);
 
     res.send({
       currentScore: updatedUserData[0].currentScore,

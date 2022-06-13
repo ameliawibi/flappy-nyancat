@@ -9,9 +9,9 @@ class BaseScene extends Phaser.Scene {
     this.lineHeight = 42;
     this.fontOptions = { fontSize: `${this.fontSize}px`, fill: "#CD00FF" };
     this.screenCenter = [config.width / 2, config.height / 2];
-    socket.on("disconnect", () => {
-      console.log("socket disconnected");
-    });
+    this.otherPlayers = null;
+    this.bird = null;
+    this.socket = socket;
   }
 
   create() {
@@ -70,6 +70,17 @@ class BaseScene extends Phaser.Scene {
     document.getElementById("uname2").value = "";
     document.getElementById("psw").value = "";
     document.getElementById("psw2").value = "";
+  }
+
+  otherPlayerExit() {
+    this.socket.emit("unsubscribe");
+    this.socket.on("userLeft", (playerId) => {
+      this.otherPlayers.getChildren().forEach((otherPlayer) => {
+        if (playerId === otherPlayer.playerId) {
+          otherPlayer.destroy();
+        }
+      });
+    });
   }
 }
 

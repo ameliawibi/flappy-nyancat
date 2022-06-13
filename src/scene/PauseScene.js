@@ -34,6 +34,7 @@ class PauseScene extends BaseScene {
         axios
           .get("/reset")
           .then((response) => {
+            this.otherPlayerExit();
             this.scene.stop("PlayScene");
             this.scene.start(menuItem.scene);
           })

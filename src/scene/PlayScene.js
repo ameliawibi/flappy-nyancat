@@ -7,7 +7,6 @@ const PIPES_TO_RENDER = 4;
 class PlayScene extends BaseScene {
   constructor(config) {
     super("PlayScene", config);
-    this.bird = null;
     this.pipes = null;
     this.pauseButton = null;
     this.isPaused = false;
@@ -19,7 +18,6 @@ class PlayScene extends BaseScene {
     this.score = 0;
     this.scoreText = "";
     this.bestScoreText = "";
-    this.socket = socket;
     this.dude = {};
   }
 
@@ -61,6 +59,13 @@ class PlayScene extends BaseScene {
     ) {
       this.gameOver();
     }
+  }
+
+  otherPlayerMoves() {
+    this.socket.emit("playerMovement", {
+      xBird: this.bird.body.position.x,
+      yBird: this.bird.body.position.y,
+    });
   }
 
   startMusic() {
@@ -131,12 +136,18 @@ class PlayScene extends BaseScene {
           }
         });
       });
+      /*this.socket.on("newPlayer", (playerInfo) => {
+        this.addOtherPlayers(playerInfo);
+      });
+      */
+
       resolve();
       //setTimeout(() => console.log(this.bird), 1000);
     });
   }
 
   createOtherBirds(playerInfo) {
+    ("this happens");
     this.otherPlayer = this.physics.add
       .sprite(this.config.startPosition.x, this.config.startPosition.y, "bird")
       .setFlipX(false)
@@ -331,6 +342,7 @@ class PlayScene extends BaseScene {
     this.time.addEvent({
       delay: 1000,
       callback: () => {
+        this.otherPlayerExit();
         this.scene.restart();
       },
       loop: false,
