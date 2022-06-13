@@ -103,7 +103,8 @@ class PlayScene extends BaseScene {
   createBirdNew() {
     return new Promise((resolve) => {
       this.otherPlayers = this.physics.add.group();
-      this.socket.emit("subscribe", socket.id);
+      this.socket.connect();
+      this.socket.emit("subscribe");
       this.socket.once("currentPlayers", (players) => {
         var anim_config = {
           key: "flapAnim",

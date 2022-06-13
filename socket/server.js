@@ -14,6 +14,7 @@ export default function init(io) {
 
     socket.on("disconnect", function () {
       delete players[socket.id];
+      io.to(gameRoom).emit("userLeft", socket.id);
       console.log(players);
       console.log("user disconnected");
       console.log("socket id: ", socket.id);
@@ -41,6 +42,7 @@ export default function init(io) {
 
     socket.on("unsubscribe", async () => {
       socket.leave(gameRoom);
+      socket.disconnect();
       console.log("a user has left our room: " + socket.id);
       // remove this player from our players object
       delete players[socket.id];
