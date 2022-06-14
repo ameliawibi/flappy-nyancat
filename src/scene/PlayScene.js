@@ -313,7 +313,7 @@ class PlayScene extends BaseScene {
   }
 
   gameOver() {
-    this.checkBestScore();
+    //this.checkBestScore();
     this.physics.pause();
     this.bird.setTint(0xff0000);
     this.music.pause();
