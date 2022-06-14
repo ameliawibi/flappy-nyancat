@@ -6,23 +6,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.prod.js",
-    "dev": "nodemon --exec babel-node app.js",
+    "start": "nodemon --exec babel-node app.js",
     "watch": "webpack --watch --config webpack.dev.js",
-    "start": "concurrently \"webpack --watch --config webpack.dev.js\" \"nodemon --exec babel-node app.js\""
+    "dev": "concurrently \"webpack --watch --config webpack.dev.js\" \"nodemon --exec babel-node app.js\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "@babel/core": "^7.18.2",
-    "@babel/preset-env": "^7.18.2",
-    "babel-loader": "^8.2.5",
-    "copy-webpack-plugin": "^11.0.0",
-    "css-loader": "^6.7.1",
-    "style-loader": "^3.3.1",
-    "webpack": "^5.73.0",
-    "webpack-cli": "^4.9.2"
-  },
+  "devDependencies": {},
   "dependencies": {
     "@babel/node": "^7.17.10",
     "@babel/register": "^7.17.7",
@@ -44,6 +35,14 @@
     "sequelize-cli": "^6.4.1",
     "socket.io": "^4.5.1",
     "socket.io-client": "^4.5.1",
-    "webpack-merge": "^5.8.0"
+    "webpack-merge": "^5.8.0",
+    "@babel/core": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
+    "babel-loader": "^8.2.5",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.7.1",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.9.2"
   }
 }
