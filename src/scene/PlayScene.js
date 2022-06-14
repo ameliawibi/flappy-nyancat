@@ -57,7 +57,7 @@ class PlayScene extends BaseScene {
         this.gameOver();
       }
     } catch (e) {
-      return;
+      console.error();
     }
   }
 
