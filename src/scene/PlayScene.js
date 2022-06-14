@@ -58,10 +58,18 @@ class PlayScene extends BaseScene {
   }
 
   otherPlayerMoves() {
-    this.socket.emit("playerMovement", {
-      xBird: this.bird.body.position.x,
-      yBird: this.bird.body.position.y,
-    });
+    try {
+      //code that causes an error
+      this.socket.emit("playerMovement", {
+        xBird: this.bird.body.position.x,
+        yBird: this.bird.body.position.y,
+      });
+    } catch (e) {
+      this.socket.emit("playerMovement", {
+        xBird: this.config.startPosition.x,
+        yBird: this.config.startPosition.y,
+      });
+    }
   }
 
   getPlayersPosition() {
@@ -126,6 +134,7 @@ class PlayScene extends BaseScene {
       });
 
       resolve();
+      console.log("resolved");
     });
   }
 
