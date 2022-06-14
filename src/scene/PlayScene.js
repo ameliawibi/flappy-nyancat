@@ -24,7 +24,6 @@ class PlayScene extends BaseScene {
   async create() {
     this.dude.isReady = false;
     super.create();
-    this.startMusic();
     await this.createBirdNew();
     await this.createPipesNew();
     this.createScore();
@@ -37,6 +36,7 @@ class PlayScene extends BaseScene {
     }, 1000);
     this.getPlayersPosition();
     this.dude.isReady = true;
+    this.startMusic();
   }
 
   update() {
