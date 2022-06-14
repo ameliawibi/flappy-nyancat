@@ -19,6 +19,7 @@ class PlayScene extends BaseScene {
     this.scoreText = "";
     this.bestScoreText = "";
     this.dude = {};
+    this.gameEnded = false;
   }
 
   async create() {
@@ -46,6 +47,10 @@ class PlayScene extends BaseScene {
     this.recyclePipes();
     this.otherPlayerMoves();
     this.checkGameStatus();
+
+    if (this.gameEnded) {
+      this.scene.restart();
+    }
   }
 
   checkGameStatus() {
@@ -313,7 +318,7 @@ class PlayScene extends BaseScene {
   }
 
   gameOver() {
-    //this.checkBestScore();
+    this.checkBestScore();
     this.physics.pause();
     this.bird.setTint(0xff0000);
     this.music.pause();
@@ -321,7 +326,7 @@ class PlayScene extends BaseScene {
       delay: 1000,
       callback: () => {
         this.otherPlayerExit();
-        this.scene.restart();
+        this.gameEnded = true;
       },
       loop: false,
     });
