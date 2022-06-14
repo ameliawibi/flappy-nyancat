@@ -1,4 +1,5 @@
 import fs from "fs";
+import url from "url";
 import path from "path";
 import Sequelize from "sequelize";
 import enVariables from "../config/config.json";
