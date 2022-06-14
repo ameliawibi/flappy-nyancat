@@ -50,6 +50,7 @@ class PlayScene extends BaseScene {
 
     if (this.gameEnded) {
       this.scene.restart();
+      this.gameEnded = false;
     }
   }
 
