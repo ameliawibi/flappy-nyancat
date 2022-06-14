@@ -58,17 +58,10 @@ class PlayScene extends BaseScene {
   }
 
   otherPlayerMoves() {
-    if (!this.bird.body) {
-      this.socket.emit("playerMovement", {
-        xBird: this.config.startPosition.x,
-        yBird: this.config.startPosition.y,
-      });
-    } else {
-      this.socket.emit("playerMovement", {
-        xBird: this.bird.body.position.x,
-        yBird: this.bird.body.position.y,
-      });
-    }
+    this.socket.emit("playerMovement", {
+      xBird: this.bird.body.position.x,
+      yBird: this.bird.body.position.y,
+    });
   }
 
   getPlayersPosition() {
