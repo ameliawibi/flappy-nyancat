@@ -47,9 +47,6 @@ class LoginScene extends BaseScene {
         this.scene.start("MenuScene");
         this.overlay(true);
         this.clearInput();
-        socket.on("connect", () => {
-          console.log("socket connected");
-        });
       })
       .catch((error) => {
         // handle error
