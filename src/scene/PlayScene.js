@@ -317,6 +317,7 @@ class PlayScene extends BaseScene {
     this.physics.pause();
     this.bird.setTint(0xff0000);
     this.music.pause();
+    this.bird = null;
     this.time.addEvent({
       delay: 1000,
       callback: () => {
