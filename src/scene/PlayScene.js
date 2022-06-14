@@ -49,11 +49,15 @@ class PlayScene extends BaseScene {
   }
 
   checkGameStatus() {
-    if (
-      this.bird.y <= 0 ||
-      this.bird.getBounds().bottom >= this.config.height
-    ) {
-      this.gameOver();
+    try {
+      if (
+        this.bird.y <= 0 ||
+        this.bird.getBounds().bottom >= this.config.height
+      ) {
+        this.gameOver();
+      }
+    } catch (e) {
+      return;
     }
   }
 
