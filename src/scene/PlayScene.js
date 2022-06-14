@@ -21,16 +21,10 @@ class PlayScene extends BaseScene {
     this.dude = {};
   }
 
-  promise(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
   async create() {
     this.dude.isReady = false;
     super.create();
     this.startMusic();
-    //this.createPipes();
-    //this.createBird();
     await this.createBirdNew();
     await this.createPipesNew();
     this.createScore();
@@ -39,8 +33,9 @@ class PlayScene extends BaseScene {
     this.listenToEvents();
     this.removePlayer();
     setTimeout(() => {
-      //this.createColliders();
+      this.createColliders();
     }, 1000);
+    this.getPlayersPosition();
     this.dude.isReady = true;
   }
 
@@ -49,11 +44,11 @@ class PlayScene extends BaseScene {
       return;
     }
     this.recyclePipes();
-    //this.checkGameStatus();
+    this.otherPlayerMoves();
+    this.checkGameStatus();
   }
 
   checkGameStatus() {
-    //console.log(this.bird);
     if (
       this.bird.y <= 0 ||
       this.bird.getBounds().bottom >= this.config.height
@@ -63,41 +58,32 @@ class PlayScene extends BaseScene {
   }
 
   otherPlayerMoves() {
-    this.socket.emit("playerMovement", {
-      xBird: this.bird.body.position.x,
-      yBird: this.bird.body.position.y,
+    if (!this.bird.body) {
+      this.socket.emit("playerMovement", {
+        xBird: this.config.startPosition.x,
+        yBird: this.config.startPosition.y,
+      });
+    } else {
+      this.socket.emit("playerMovement", {
+        xBird: this.bird.body.position.x,
+        yBird: this.bird.body.position.y,
+      });
+    }
+  }
+
+  getPlayersPosition() {
+    this.socket.on("playerMoved", (playerInfo) => {
+      this.otherPlayers.getChildren().forEach((otherPlayer) => {
+        if (playerInfo.playerId === otherPlayer.playerId) {
+          otherPlayer.setPosition(playerInfo.x, playerInfo.y);
+        }
+      });
     });
   }
 
   startMusic() {
     this.music = this.sound.add("nyancat");
-    //this.music.play();
-  }
-
-  createBird() {
-    var anim_config = {
-      key: "flap",
-      frames: this.anims.generateFrameNumbers("bird", {
-        start: 0,
-        end: 2,
-        first: 0,
-      }),
-      frameRate: 10,
-      repeat: -1,
-    };
-    this.flapSound = this.sound.add("flap");
-
-    this.anims.create(anim_config);
-    this.bird = this.physics.add
-      .sprite(this.config.startPosition.x, this.config.startPosition.y, "bird")
-      .setFlipX(false)
-      .setOrigin(0)
-      .setBodySize(50, 38)
-      .setOffset(31, 0)
-      .play("flap");
-
-    this.bird.body.gravity.y = 400; //400 pixels per second with acceleration
-    this.bird.setCollideWorldBounds(true);
+    this.music.play();
   }
 
   createBirdNew() {
@@ -163,25 +149,6 @@ class PlayScene extends BaseScene {
 
     this.otherPlayer.playerId = playerInfo.playerId;
     this.otherPlayers.add(this.otherPlayer);
-    console.log(this.otherPlayers.getChildren());
-  }
-
-  createPipes() {
-    this.pipes = this.physics.add.group();
-    for (let i = 0; i < PIPES_TO_RENDER; i++) {
-      const upperPipe = this.pipes
-        .create(0, 0, "pipe")
-        .setImmovable(true)
-        .setFlipY(true)
-        .setOrigin(0, 1);
-      const lowerPipe = this.pipes
-        .create(0, 0, "pipe")
-        .setImmovable(true)
-        .setOrigin(0, 0);
-      this.placePipe(upperPipe, lowerPipe);
-    }
-
-    this.pipes.setVelocityX(this.moveVelocity);
   }
 
   createPipesNew() {

@@ -1,6 +1,5 @@
 import BaseScene from "./BaseScene";
 import axios from "axios";
-import socket from "../../socket/client";
 
 class PauseScene extends BaseScene {
   constructor(config) {
@@ -9,7 +8,6 @@ class PauseScene extends BaseScene {
       { scene: "PlayScene", text: "Continue" },
       { scene: "MenuScene", text: "Exit to Menu" },
     ];
-    this.socket = socket;
   }
 
   create() {

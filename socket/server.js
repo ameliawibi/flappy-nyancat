@@ -40,6 +40,12 @@ export default function init(io) {
       //io.to(gameRoom).emit("newPlayer", players[socket.id]);
     });
 
+    socket.on("playerMovement", async (position) => {
+      players[socket.id].x = position.xBird;
+      players[socket.id].y = position.yBird;
+      io.to(gameRoom).emit("playerMoved", players[socket.id]);
+    });
+
     socket.on("unsubscribe", async () => {
       socket.leave(gameRoom);
       socket.disconnect();
