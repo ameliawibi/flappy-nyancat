@@ -29,6 +29,6 @@ const PORT = process.env.PORT || 3004;
 
 init(io);
 
-httpServer.listen(3004, () => {
-  console.log("listening on *:3004");
+httpServer.listen(PORT, () => {
+  console.log(`listening on ${PORT}`);
 });
