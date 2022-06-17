@@ -27,10 +27,10 @@ class PlayScene extends BaseScene {
     super.create();
     const res = await this.createBirdNew();
     const res2 = await this.createPipesNew();
-    if (res && res2) {
+    const res3 = await this.createScore();
+    if (res && res2 && res3) {
       this.dude.isReady = true;
     }
-    this.createScore();
     this.createPause();
     this.handleInputs();
     this.listenToEvents();
@@ -190,35 +190,38 @@ class PlayScene extends BaseScene {
   }
 
   createScore() {
-    this.score = 0;
-    axios
-      .get("/displayscore")
-      .then((response) => {
-        this.scoreText = this.add.text(
-          16,
-          16,
-          `Score: ${response.data.currentScore || 0}`,
-          {
-            fontSize: "32px",
-            fill: "#fff",
-          }
-        );
-        this.bestScoreText = this.add.text(
-          16,
-          52,
-          `Best score by ${response.data.bestPlayer}: ${
-            response.data.bestScore || 0
-          }`,
-          {
-            fontSize: "18px",
-            fill: "#fff",
-          }
-        );
-      })
-      .catch((error) => {
-        //handle error
-        console.log(error);
-      });
+    return new Promise((resolve) => {
+      this.score = 0;
+      axios
+        .get("/displayscore")
+        .then((response) => {
+          this.scoreText = this.add.text(
+            16,
+            16,
+            `Score: ${response.data.currentScore || 0}`,
+            {
+              fontSize: "32px",
+              fill: "#fff",
+            }
+          );
+          this.bestScoreText = this.add.text(
+            16,
+            52,
+            `Best score by ${response.data.bestPlayer}: ${
+              response.data.bestScore || 0
+            }`,
+            {
+              fontSize: "18px",
+              fill: "#fff",
+            }
+          );
+        })
+        .catch((error) => {
+          //handle error
+          console.log(error);
+        });
+      resolve(true);
+    });
   }
 
   createPause() {
