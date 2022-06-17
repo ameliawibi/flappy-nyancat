@@ -25,7 +25,7 @@ export default function init(io) {
     // send the players object to the new player
     //socket.emit("currentPlayers", players);
     // update all other players of the new player
-    socket.broadcast.emit("newPlayer", players[socket.id]);
+    //socket.broadcast.emit("newPlayer", players[socket.id]);
 
     socket.on("subscribe", async () => {
       players[socket.id] = {
@@ -33,22 +33,27 @@ export default function init(io) {
         x: 80,
         y: 300,
       };
+
       socket.join(gameRoom);
       console.log("a user has joined our room: " + socket.id);
       console.log(players);
       io.to(gameRoom).emit("currentPlayers", players);
-      //io.to(gameRoom).emit("newPlayer", players[socket.id]);
+      socket.broadcast.emit("newPlayer", players[socket.id]);
     });
 
     socket.on("playerMovement", async (position) => {
-      players[socket.id].x = position.xBird;
-      players[socket.id].y = position.yBird;
-      io.to(gameRoom).emit("playerMoved", players[socket.id]);
+      try {
+        players[socket.id].x = position.xBird;
+        players[socket.id].y = position.yBird;
+        io.to(gameRoom).emit("playerMoved", players[socket.id]);
+      } catch {
+        console.error();
+      }
     });
 
     socket.on("unsubscribe", async () => {
       socket.leave(gameRoom);
-      socket.disconnect();
+      //socket.disconnect();
       console.log("a user has left our room: " + socket.id);
       // remove this player from our players object
       delete players[socket.id];

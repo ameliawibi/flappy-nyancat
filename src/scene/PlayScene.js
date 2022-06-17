@@ -25,8 +25,11 @@ class PlayScene extends BaseScene {
   async create() {
     this.dude.isReady = false;
     super.create();
-    await this.createBirdNew();
-    await this.createPipesNew();
+    const res = await this.createBirdNew();
+    const res2 = await this.createPipesNew();
+    if (res && res2) {
+      this.dude.isReady = true;
+    }
     this.createScore();
     this.createPause();
     this.handleInputs();
@@ -36,7 +39,6 @@ class PlayScene extends BaseScene {
       this.createColliders();
     }, 1000);
     this.getPlayersPosition();
-    this.dude.isReady = true;
     this.startMusic();
   }
 
@@ -100,7 +102,7 @@ class PlayScene extends BaseScene {
   createBirdNew() {
     return new Promise((resolve) => {
       this.otherPlayers = this.physics.add.group();
-      this.socket.connect();
+      //this.socket.connect();
       this.socket.emit("subscribe");
       this.socket.once("currentPlayers", (players) => {
         var anim_config = {
@@ -143,8 +145,8 @@ class PlayScene extends BaseScene {
         }
       });
 
-      resolve();
-      console.log("resolved");
+      resolve(true);
+      //console.log("resolved");
     });
   }
 
@@ -179,7 +181,7 @@ class PlayScene extends BaseScene {
         this.placePipe(upperPipe, lowerPipe);
       }
       this.pipes.setVelocityX(this.moveVelocity);
-      resolve();
+      resolve(true);
     });
   }
 
